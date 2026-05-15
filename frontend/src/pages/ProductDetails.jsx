@@ -10,7 +10,7 @@ function ProductDetails() {
   const fetchProduct = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/products/${id}`
+        `https://olx-clone-vgy9.onrender.com/api/products/${id}`
       );
       setProduct(res.data);
     } catch (err) {
@@ -34,7 +34,7 @@ function ProductDetails() {
         }}
       >
         <img
-          src={`http://localhost:5000/uploads/${product?.image}`}
+          src={`https://olx-clone-vgy9.onrender.com/uploads/${product?.image}`}
           alt=""
           width="100%"
           style={{

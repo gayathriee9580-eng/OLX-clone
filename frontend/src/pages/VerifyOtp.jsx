@@ -17,7 +17,7 @@ const [timer, setTimer] = useState(0);
     
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/verify-otp", {
+      const res = await axios.post("https://olx-clone-vgy9.onrender.com/api/auth/verify-otp", {
         email,
         otp,
       });
@@ -37,7 +37,7 @@ const resendOtp = async () => {
 
   try {
     const res = await axios.post(
-      "http://localhost:5000/api/auth/resend-otp",
+      "https://olx-clone-vgy9.onrender.com/api/auth/resend-otp",
       { email }
     );
 

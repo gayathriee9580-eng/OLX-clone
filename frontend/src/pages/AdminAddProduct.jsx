@@ -34,7 +34,7 @@ function AdminAddProduct() {
     formData.append("image", image);
 
     try {
-      await axios.post("http://localhost:5000/api/admin/products", formData, {
+      await axios.post("https://olx-clone-vgy9.onrender.com/api/admin/products", formData, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
           "Content-Type": "multipart/form-data",
