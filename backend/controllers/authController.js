@@ -135,7 +135,7 @@ const forgotPassword = async (req, res) => {
 
     res.json({
       message: "Reset token generated",
-      resetLink: `http://localhost:5173/reset-password/${resetToken}`,
+      resetLink: `https://olx-clone-dusky-seven.vercel.app/reset-password/${resetToken}`,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
