@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
-  const adminToken =
-  localStorage.getItem("adminToken") || localStorage.getItem("token");
 
   const getImageUrl = (image) => {
   if (!image) return "https://via.placeholder.com/300x200?text=No+Image";
@@ -19,11 +17,13 @@ function AdminProducts() {
   return `https://olx-clone-vgy9.onrender.com/uploads/${image}`;
 };
 
-  const fetchAdminProducts = async () => {
+const fetchAdminProducts = async () => {
     try {
+      const currentToken = localStorage.getItem("adminToken") || localStorage.getItem("token");
+
       const res = await axios.get("https://olx-clone-vgy9.onrender.com/api/admin/products", {
         headers: {
-            Authorization: `Bearer ${adminToken}`,  
+            Authorization: `Bearer ${currentToken}`, 
         },
       });
 
@@ -36,24 +36,25 @@ function AdminProducts() {
 
 const deleteProduct = async (id) => {
   try {
+    // ✅ കറന്റ് ടോക്കൺ എടുക്കുന്നു
+    const currentToken = localStorage.getItem("adminToken") || localStorage.getItem("token");
+
     await axios.delete(
       `https://olx-clone-vgy9.onrender.com/api/admin/products/${id}`,
       {
         headers: {
-            Authorization: `Bearer ${adminToken}`,
+            Authorization: `Bearer ${currentToken}`,
         },
       }
     );
 
     alert("Product Deleted");
-
     fetchAdminProducts();
   } catch (error) {
     console.log(error);
     alert("Delete failed");
   }
 };
-
 
   useEffect(() => {
     fetchAdminProducts();
