@@ -19,7 +19,6 @@ const navigate = useNavigate();
 
 const loginUser = async (e) => {
     e.preventDefault();
-
     try {
       const res = await axios.post(
         "https://olx-clone-vgy9.onrender.com/api/auth/login",
@@ -27,7 +26,7 @@ const loginUser = async (e) => {
       );
 
       alert("Login Success");
-
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       if (res.data.user.role === "admin") {
         localStorage.setItem("adminToken", res.data.token);
         navigate("/admin/products");
@@ -35,6 +34,7 @@ const loginUser = async (e) => {
         localStorage.setItem("token", res.data.token);
         navigate("/");
       }
+      window.location.reload();
 
     } catch (error) {
       console.log(error);
