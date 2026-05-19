@@ -70,17 +70,14 @@ function Navbar({ search, setSearch }) {
 
         {isLoggedIn && (
           <>
-            {/* 👑 Admin ആണെങ്കിൽ കാണിക്കേണ്ട ലിങ്കുകൾ */}
+            {/* 👑 1. Admin ആണെങ്കിൽ 'Dashboard' മാത്രം കാണിക്കുക (Sell ലിങ്ക് ഒഴിവാക്കി) */}
             {user?.role === "admin" && (
-              <>
-                <Link to="/add-product">Sell</Link>
-                <Link to="/admin/products" style={{ color: "#ffce00", fontWeight: "bold" }}>
-                  Dashboard
-                </Link>
-              </>
+              <Link to="/admin/products" style={{ color: "#ffce00", fontWeight: "bold" }}>
+                Dashboard
+              </Link>
             )}
 
-            {/* 🛍️ Seller ആണെങ്കിൽ കാണിക്കേണ്ട ലിങ്കുകൾ */}
+            {/* 🛍️ 2. Seller ആണെങ്കിൽ Sell ഉം My Ads ഉം കാണിക്കുക */}
             {user?.role === "seller" && (
               <>
                 <Link to="/add-product">Sell</Link>
@@ -88,9 +85,21 @@ function Navbar({ search, setSearch }) {
               </>
             )}
 
-            {/* 👤 Buyer ആണെങ്കിൽ കാണിക്കേണ്ട ബട്ടൺ */}
+            {/* 👤 3. Buyer ആണെങ്കിൽ 'Sell' എന്ന് എഴുതിയ ബട്ടൺ മാത്രം കാണിക്കുക (ക്ലിക്ക് ചെയ്താൽ സെല്ലർ ആകും) */}
             {user?.role === "buyer" && (
-              <button onClick={handleBecomeSeller} className="sell-btn" style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit' }}>
+              <button 
+                onClick={handleBecomeSeller} 
+                className="sell-btn" 
+                style={{ 
+                  background: 'none', 
+                  border: 'none', 
+                  color: 'white', 
+                  cursor: 'pointer', 
+                  fontFamily: 'inherit', 
+                  fontSize: 'inherit',
+                  padding: '0 10px'
+                }}
+              >
                 Sell
               </button> 
             )}
