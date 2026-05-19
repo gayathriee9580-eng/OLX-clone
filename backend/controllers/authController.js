@@ -249,4 +249,30 @@ const resendOtp = async (req, res) => {
   }
 };
 
-module.exports = { signup, login , forgotPassword , resetPassword , verifyOtp , resendOtp};
+// ✅ യൂസറുടെ റോൾ 'buyer'ൽ നിന്നും 'seller'ലേക്ക് അപ്ഡേറ്റ് ചെയ്യാനുള്ള കൺട്രോളർ
+const updateRoleToSeller = async (req, res) => {
+  try {
+    // authMiddleware ഉള്ളതുകൊണ്ട് req.user.id-ൽ നിന്ന് ലോഗിൻ ചെയ്ത യൂസറുടെ ID കിട്ടും
+    const userId = req.user.id; 
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { role: "seller" },
+      { new: true } // അപ്ഡേറ്റ് ചെയ്ത പുതിയ ഡാറ്റ റെസ്പോൺസിൽ കിട്ടാൻ
+    ).select("-password"); // പാസ്‌വേഡ് ഫീൽഡ് ഒഴിവാക്കി ബാക്കി ഡാറ്റ എടുക്കുന്നു
+
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "Role updated to seller successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { signup, login , forgotPassword , resetPassword , verifyOtp , resendOtp , updateRoleToSeller};
