@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2"; // 🚀 ഇമ്പോർട്ട് ചെയ്യുക
 
 function Navbar({ search, setSearch }) {
   const navigate = useNavigate();
@@ -30,16 +31,37 @@ function Navbar({ search, setSearch }) {
       );
 
       if (res.data.success) {
-        alert("You are now a Seller! Redirecting to Add Product page...");
+        // ✨ പഴയ അലർട്ടിന് പകരം പ്രൊഫഷണൽ SweetAlert പോപ്പ്-അപ്പ്
+        Swal.fire({
+          title: "🎉 Congratulations!",
+          text: "You are now a Seller! Redirecting to Add Product page...",
+          icon: "success",
+          background: "#1e293b", // നിന്റെ സൈറ്റിന്റെ ഡാർക്ക് തീമിന് മാച്ചാവാൻ
+          color: "#fff",
+          confirmButtonColor: "#2563eb",
+          timer: 2500,
+          showConfirmButton: false
+        });
+
         const updatedUser = { ...user, role: "seller" };
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setUser(updatedUser);
-        navigate("/add-product");
-        window.location.reload();
+        
+        setTimeout(() => {
+          navigate("/add-product");
+          window.location.reload();
+        }, 2500);
       }
     } catch (error) {
       console.log("Role update failed:", error);
-      alert("Something went wrong!");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong! Make sure backend is updated.",
+        background: "#1e293b",
+        color: "#fff",
+        confirmButtonColor: "#dc2626"
+      });
     }
   };
 
@@ -70,14 +92,12 @@ function Navbar({ search, setSearch }) {
 
         {isLoggedIn && (
           <>
-            {/* 👑 1. Admin ആണെങ്കിൽ 'Dashboard' മാത്രം കാണിക്കുക (Sell ലിങ്ക് ഒഴിവാക്കി) */}
             {user?.role === "admin" && (
               <Link to="/admin/products" style={{ color: "#ffce00", fontWeight: "bold" }}>
                 Dashboard
               </Link>
             )}
 
-            {/* 🛍️ 2. Seller ആണെങ്കിൽ Sell ഉം My Ads ഉം കാണിക്കുക */}
             {user?.role === "seller" && (
               <>
                 <Link to="/add-product">Sell</Link>
@@ -85,20 +105,11 @@ function Navbar({ search, setSearch }) {
               </>
             )}
 
-            {/* 👤 3. Buyer ആണെങ്കിൽ 'Sell' എന്ന് എഴുതിയ ബട്ടൺ മാത്രം കാണിക്കുക (ക്ലിക്ക് ചെയ്താൽ സെല്ലർ ആകും) */}
             {user?.role === "buyer" && (
               <button 
                 onClick={handleBecomeSeller} 
                 className="sell-btn" 
-                style={{ 
-                  background: 'none', 
-                  border: 'none', 
-                  color: 'white', 
-                  cursor: 'pointer', 
-                  fontFamily: 'inherit', 
-                  fontSize: 'inherit',
-                  padding: '0 10px'
-                }}
+                style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', padding: '0 10px' }}
               >
                 Sell
               </button> 

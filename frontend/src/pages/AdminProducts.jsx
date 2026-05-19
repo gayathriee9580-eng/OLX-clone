@@ -37,18 +37,48 @@ function AdminProducts() {
     }
   };
 
-  const deleteProduct = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this product?")) return;
-    try {
-      await axios.delete(`https://olx-clone-vgy9.onrender.com/api/admin/products/${id}`, {
-        headers: { Authorization: `Bearer ${adminToken}` },
-      });
-      alert("Product Deleted");
-      fetchAdminProducts();
-    } catch (error) {
-      alert("Delete failed");
+const deleteProduct = async (id) => {
+  // ✨ SweetAlert കൺഫർമേഷൻ ബോക്സ്
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this product listing!",
+    icon: "warning",
+    showCancelButton: true,
+    background: "#1e293b",
+    color: "#fff",
+    confirmButtonColor: "#dc2626",
+    cancelButtonColor: "#4b5563",
+    confirmButtonText: "Yes, delete it!"
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`https://olx-clone-vgy9.onrender.com/api/admin/products/${id}`, {
+          headers: { Authorization: `Bearer ${adminToken}` },
+        });
+        
+        Swal.fire({
+          title: "Deleted!",
+          text: "Product has been deleted.",
+          icon: "success",
+          background: "#1e293b",
+          color: "#fff",
+          confirmButtonColor: "#2563eb",
+          timer: 1500,
+          showConfirmButton: false
+        });
+        
+        fetchAdminProducts();
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Delete failed",
+          background: "#1e293b",
+          color: "#fff"
+        });
+      }
     }
-  };
+  });
+};
 
   const toggleBlockUser = async (userId) => {
     try {
