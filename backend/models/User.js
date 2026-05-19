@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema(
       enum: ["buyer", "seller", "admin"],
       default: "buyer",
     },
+      phone: {
+      type: String,
+      required: true,
+    },
 
     isBlocked: {
       type: Boolean,
@@ -32,6 +36,12 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+      wishlist: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
 
     otp: String,
 

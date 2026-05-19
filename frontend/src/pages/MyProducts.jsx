@@ -8,7 +8,7 @@ function MyProducts() {
   const fetchMyProducts = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/products/my-products",
+        "https://olx-clone-vgy9.onrender.com/api/products/my-products",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -29,7 +29,7 @@ function MyProducts() {
   const deleteProduct = async (id) => {
   try {
     await axios.delete(
-      `http://localhost:5000/api/products/${id}`,
+      `https://olx-clone-vgy9.onrender.com/api/products/${id}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -57,7 +57,7 @@ function MyProducts() {
             >
             <div className="product-card">
               <img
-                src={`http://localhost:5000/uploads/${product.image}`}
+                src={`https://olx-clone-vgy9.onrender.com/uploads/${product.image}`}
                 alt=""
               />
 

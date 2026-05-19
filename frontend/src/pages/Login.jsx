@@ -22,7 +22,7 @@ const navigate = useNavigate();
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://olx-clone-vgy9.onrender.com/api/auth/login",
         form
       );
 
@@ -31,7 +31,7 @@ const navigate = useNavigate();
             } else {
             localStorage.setItem("token", res.data.token);
             }
-            
+
       alert("Login Success");
       navigate("/");
     } catch (error) {

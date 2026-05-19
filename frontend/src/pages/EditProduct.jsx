@@ -18,7 +18,7 @@ function EditProduct() {
   const fetchProduct = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/products/${id}`
+        `https://olx-clone-vgy9.onrender.com/api/products/${id}`
       );
 
       setForm({
@@ -49,7 +49,7 @@ function EditProduct() {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/products/${id}`,
+        `https://olx-clone-vgy9.onrender.com/api/products/${id}`,
         form,
         {
           headers: {

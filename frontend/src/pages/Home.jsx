@@ -30,7 +30,7 @@ const filteredProducts = products
   });
 
   const fetchProducts = async () => {
-    const res = await axios.get("http://localhost:5000/api/products");
+    const res = await axios.get("https://olx-clone-vgy9.onrender.com/api/products");
     setProducts(res.data);
   };
 
@@ -41,7 +41,7 @@ const filteredProducts = products
     if (!token) return;
 
     const res = await axios.get(
-      "http://localhost:5000/api/wishlist",
+      "https://olx-clone-vgy9.onrender.com/api/wishlist",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ const filteredProducts = products
 
     setWishlist(res.data);
   } catch (err) {
-    console.log(err.response?.data || err.message); // ✅ improved
+    console.log(err.response?.data || err.message); 
   }
 };
 
@@ -73,7 +73,7 @@ const addToWishlist = async (e, productId) => {
     }
 
     await axios.post(
-      `http://localhost:5000/api/wishlist/${productId}`,
+      `https://olx-clone-vgy9.onrender.com/api/wishlist/${productId}`,
       {},
       {
         headers: {
@@ -130,7 +130,7 @@ const addToWishlist = async (e, productId) => {
             style={{ position: "relative" }}
             >                
               <img
-                src={`http://localhost:5000/uploads/${product.image}`}
+                src={`https://olx-clone-vgy9.onrender.com/uploads/${product.image}`}
                 alt=""
               />
                 <button

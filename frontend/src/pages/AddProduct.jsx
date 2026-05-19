@@ -33,7 +33,7 @@ function AddProduct() {
       data.append("image", image);
 
       await axios.post(
-        "http://localhost:5000/api/products",
+        "https://olx-clone-vgy9.onrender.com/api/products",
         data,
         {
           headers: {

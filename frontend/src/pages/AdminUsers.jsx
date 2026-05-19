@@ -8,7 +8,7 @@ const adminToken = localStorage.getItem("adminToken") || localStorage.getItem("t
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/users", {
+      const res = await axios.get("https://olx-clone-vgy9.onrender.com/api/admin/users", {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         },
@@ -23,7 +23,7 @@ const adminToken = localStorage.getItem("adminToken") || localStorage.getItem("t
   const toggleBlockUser = async (userId) => {
     try {
       await axios.patch(
-        `http://localhost:5000/api/admin/users/${userId}/block`,
+        `https://olx-clone-vgy9.onrender.com/api/admin/users/${userId}/block`,
         {},
         {
       headers: {

@@ -24,7 +24,7 @@ function AdminEditProduct() {
 
   const fetchProduct = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+      const res = await axios.get(`https://olx-clone-vgy9.onrender.com/api/products/${id}`);
 
       setProduct({
         title: res.data.title,
@@ -81,7 +81,7 @@ if (!image) {
     }
 
     await axios.put(
-      `http://localhost:5000/api/admin/products/${id}`,
+      `https://olx-clone-vgy9.onrender.com/api/admin/products/${id}`,
       formData,
       {
         headers: {
@@ -163,7 +163,7 @@ if (!image) {
        {/* Existing image (before change) */}
 {!image && product.image && (
   <img
-    src={`http://localhost:5000/uploads/${product.image}`}
+    src={`https://olx-clone-vgy9.onrender.com/uploads/${product.image}`}
     alt="product"
     style={{
       width: "150px",

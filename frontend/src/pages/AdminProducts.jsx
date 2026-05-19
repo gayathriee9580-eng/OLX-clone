@@ -13,15 +13,15 @@ function AdminProducts() {
   if (image.startsWith("http")) return image;
 
   if (image.startsWith("uploads/")) {
-    return `http://localhost:5000/${image}`;
+    return `https://olx-clone-vgy9.onrender.com/${image}`;
   }
 
-  return `http://localhost:5000/uploads/${image}`;
+  return `https://olx-clone-vgy9.onrender.com/uploads/${image}`;
 };
 
   const fetchAdminProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/products", {
+      const res = await axios.get("https://olx-clone-vgy9.onrender.com/api/admin/products", {
         headers: {
             Authorization: `Bearer ${adminToken}`,  
         },
@@ -37,7 +37,7 @@ function AdminProducts() {
 const deleteProduct = async (id) => {
   try {
     await axios.delete(
-      `http://localhost:5000/api/admin/products/${id}`,
+      `https://olx-clone-vgy9.onrender.com/api/admin/products/${id}`,
       {
         headers: {
             Authorization: `Bearer ${adminToken}`,

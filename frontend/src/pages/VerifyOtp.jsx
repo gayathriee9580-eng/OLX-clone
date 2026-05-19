@@ -43,7 +43,7 @@ const resendOtp = async () => {
 
     alert(res.data.message);
 
-    setTimer(30); // 👈 start timer
+    setTimer(30); 
 
   } catch (error) {
     console.log(error);
