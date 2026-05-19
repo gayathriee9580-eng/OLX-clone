@@ -17,7 +17,7 @@ const navigate = useNavigate();
     });
   };
 
-  const loginUser = async (e) => {
+const loginUser = async (e) => {
     e.preventDefault();
 
     try {
@@ -26,14 +26,16 @@ const navigate = useNavigate();
         form
       );
 
-            if (res.data.user.role === "admin") {
-            localStorage.setItem("adminToken", res.data.token);
-            } else {
-            localStorage.setItem("token", res.data.token);
-            }
-
       alert("Login Success");
-      navigate("/");
+
+      if (res.data.user.role === "admin") {
+        localStorage.setItem("adminToken", res.data.token);
+        navigate("/admin/products");
+      } else {
+        localStorage.setItem("token", res.data.token);
+        navigate("/");
+      }
+
     } catch (error) {
       console.log(error);
       alert("Login failed");
