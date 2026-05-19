@@ -21,9 +21,15 @@ function Navbar({ search, setSearch }) {
     }
   }, []);
 
-  const handleBecomeSeller = async () => {
+const handleBecomeSeller = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token") || localStorage.getItem("adminToken");
+      
+      if (!token) {
+        alert("No token found! Please login again.");
+        return;
+      }
+
       const res = await axios.put(
         "https://olx-clone-vgy9.onrender.com/api/auth/update-role", 
         {}, 
@@ -31,17 +37,20 @@ function Navbar({ search, setSearch }) {
       );
 
       if (res.data.success) {
-        // ✨ പഴയ അലർട്ടിന് പകരം പ്രൊഫഷണൽ SweetAlert പോപ്പ്-അപ്പ്
-        Swal.fire({
-          title: "🎉 Congratulations!",
-          text: "You are now a Seller! Redirecting to Add Product page...",
-          icon: "success",
-          background: "#1e293b", // നിന്റെ സൈറ്റിന്റെ ഡാർക്ക് തീമിന് മാച്ചാവാൻ
-          color: "#fff",
-          confirmButtonColor: "#2563eb",
-          timer: 2500,
-          showConfirmButton: false
-        });
+        if (typeof Swal !== "undefined" && Swal.fire) {
+          Swal.fire({
+            title: "🎉 Congratulations!",
+            text: "You are now a Seller! Redirecting to Add Product page...",
+            icon: "success",
+            background: "#1e293b",
+            color: "#fff",
+            confirmButtonColor: "#2563eb",
+            timer: 2500,
+            showConfirmButton: false
+          });
+        } else {
+          alert("You are now a Seller! Redirecting...");
+        }
 
         const updatedUser = { ...user, role: "seller" };
         localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -53,17 +62,23 @@ function Navbar({ search, setSearch }) {
         }, 2500);
       }
     } catch (error) {
-      console.log("Role update failed:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong! Make sure backend is updated.",
-        background: "#1e293b",
-        color: "#fff",
-        confirmButtonColor: "#dc2626"
-      });
+      console.error("Role update failed:", error);
+      
+      if (typeof Swal !== "undefined" && Swal.fire) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response?.data?.message || "Something went wrong! Check Console.",
+          background: "#1e293b",
+          color: "#fff",
+          confirmButtonColor: "#dc2626"
+        });
+      } else {
+        alert("Something went wrong! Error: " + (error.response?.data?.message || error.message));
+      }
     }
   };
+
 
   const logout = () => {
     localStorage.removeItem("token");
