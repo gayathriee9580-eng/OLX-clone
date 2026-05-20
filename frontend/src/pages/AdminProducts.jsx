@@ -142,7 +142,23 @@ const deleteProduct = async (id) => {
               <div className="product-info" style={{ padding: "15px", flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                 <div>
                   <h3 style={{ margin: "0 0 10px 0", fontSize: "1.2rem" }}>{product.title}</h3>
-                  <p style={{ color: "#9ca3af", fontSize: "0.9rem", height: "40px", overflow: "hidden" }}>{product.description}</p>
+
+
+                  <p
+                    style={{
+                      color: "#9ca3af",
+                      fontSize: "0.9rem",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      minHeight: "42px",
+                    }}
+                  >
+                    {product.description}
+                  </p>
+
                   <h4 className="price" style={{ color: "#10b981", margin: "10px 0" }}>₹ {product.price}</h4>
                   <p style={{ fontSize: "0.85rem", color: "#cbd5e1" }}>📍 {product.location}</p>
                   <p style={{ fontSize: "0.85rem", color: "#ffce00", marginTop: "5px" }}>👤 Seller: {product.seller?.name || "Admin"}</p>

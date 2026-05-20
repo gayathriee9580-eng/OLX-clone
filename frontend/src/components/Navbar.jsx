@@ -105,44 +105,63 @@ const handleBecomeSeller = async () => {
       <div className="nav-links">
         <Link to="/">Home</Link>
 
-        {isLoggedIn && (
-          <>
-{user?.role === "admin" && (
+      {isLoggedIn && (
   <>
-    <Link
-      to="/admin/products"
-      style={{ color: "#ffce00", fontWeight: "bold" }}
-    >
-      Dashboard
-    </Link>
+    {/* ADMIN NAVBAR */}
+    {user?.role === "admin" && (
+      <>
+        <Link
+          to="/admin/products"
+          style={{ color: "#ffce00", fontWeight: "bold" }}
+        >
+          Dashboard
+        </Link>
 
-    <Link
-      to="/admin/add-product"
-      style={{ color: "#ffce00", fontWeight: "bold" }}
-    >
-      Add Product
-    </Link>
+        <Link
+          to="/admin/add-product"
+          style={{ color: "#ffce00", fontWeight: "bold" }}
+        >
+          Add Product
+        </Link>
 
-    <Link
-      to="/admin/users"
-      style={{ color: "#ffce00", fontWeight: "bold" }}
-    >
-      Users
-    </Link>
+        <Link
+          to="/admin/users"
+          style={{ color: "#ffce00", fontWeight: "bold" }}
+        >
+          Users
+        </Link>
+      </>
+    )}
+
+    {/* BUYER NAVBAR */}
+    {user?.role === "buyer" && (
+      <button
+        onClick={handleBecomeSeller}
+        className="sell-btn"
+        style={{
+          background: "none",
+          border: "none",
+          color: "white",
+          cursor: "pointer",
+          fontFamily: "inherit",
+          fontSize: "inherit",
+          padding: "0 10px",
+        }}
+      >
+        Sell
+      </button>
+    )}
+
+    {/* SELLER NAVBAR */}
+    {user?.role === "seller" && (
+      <>
+        <Link to="/add-product">Sell</Link>
+
+        <Link to="/my-products">My Ads</Link>
+      </>
+    )}
   </>
 )}
-
-            {user?.role === "buyer" && (
-              <button 
-                onClick={handleBecomeSeller} 
-                className="sell-btn" 
-                style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', padding: '0 10px' }}
-              >
-                Sell
-              </button> 
-            )}
-          </>
-        )}
 
         {isLoggedIn ? (
           <button onClick={logout} className="logout-btn">Logout</button>
