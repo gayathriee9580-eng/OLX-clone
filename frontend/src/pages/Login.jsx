@@ -26,7 +26,10 @@ function Login() {
         form
       );
 
-      // 💾 യൂസർ ഡാറ്റ ലോക്കൽ സ്റ്റോറേജിൽ സേവ് ചെയ്യുന്നു
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("adminToken");
+
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
       // 🔑 ടോക്കൺ റോൾ അനുസരിച്ച് വേർതിരിച്ച് സേവ് ചെയ്യുന്നു
@@ -52,11 +55,18 @@ function Login() {
         alert("Login Success");
       }
 
-      // 🚀 അഡ്മിൻ ആയാലും യൂസർ ആയാലും നേരിട്ട് Home Page (`/`) ലേക്ക് നാവിഗേറ്റ് ചെയ്യുന്നു
-      setTimeout(() => {
-        navigate("/");
-        window.location.reload();
-      }, 2000);
+setTimeout(() => {
+
+  if (res.data.user.role === "admin") {
+    navigate("/admin/products");
+  }
+  else {
+    navigate("/");
+  }
+
+  window.location.reload();
+
+}, 2000);
 
     } catch (error) {
       console.log(error);

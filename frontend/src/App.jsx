@@ -17,6 +17,7 @@ import AdminEditProduct from "./pages/AdminEditProduct";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOtp from "./pages/VerifyOtp";
+import AdminRoute from "./components/AdminRoute";
 
 import "./App.css";
 
@@ -32,14 +33,48 @@ function App() {
         <Route path="/add-product" element={<ProtectedRoute><AddProduct /></ProtectedRoute>}/>
         <Route path="/my-products" element={<MyProducts />} />
         <Route path="/edit-product/:id" element={<EditProduct />}/>
-        <Route path="/admin/products" element={<AdminProducts />} />
-        <Route path="/admin/users" element={<AdminUsers />} />
-        <Route path="/admin/add-product" element={<AdminAddProduct />} />
-        <Route path="/admin/edit-product/:id" element={<AdminEditProduct />} />
+
+<Route
+  path="/admin/products"
+  element={
+    <AdminRoute>
+      <AdminProducts />
+    </AdminRoute>
+  }
+/>
+
+<Route
+  path="/admin/users"
+  element={
+    <AdminRoute>
+      <AdminUsers />
+    </AdminRoute>
+  }
+/>
+
+<Route
+  path="/admin/add-product"
+  element={
+    <AdminRoute>
+      <AdminAddProduct />
+    </AdminRoute>
+  }
+/>
+
+<Route
+  path="/admin/edit-product/:id"
+  element={
+    <AdminRoute>
+      <AdminEditProduct />
+    </AdminRoute>
+  }
+/>
+
         <Route path="/reset-password/:token" element={<ResetPassword />}/>
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/" element={<Home search={search} />} />
+        
 
         
 

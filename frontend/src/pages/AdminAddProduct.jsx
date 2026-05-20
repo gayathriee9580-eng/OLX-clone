@@ -12,9 +12,7 @@ function AdminAddProduct() {
 
   const [image, setImage] = useState(null);
 
-  const adminToken =
-    localStorage.getItem("adminToken") || localStorage.getItem("token");
-
+  const adminToken = localStorage.getItem("adminToken");
   const handleChange = (e) => {
     setProduct({
       ...product,

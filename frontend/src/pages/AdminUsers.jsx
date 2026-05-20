@@ -4,7 +4,7 @@ import axios from "axios";
 function AdminUsers() {
   const [users, setUsers] = useState([]);
 
-const adminToken = localStorage.getItem("adminToken") || localStorage.getItem("token");
+  const adminToken = localStorage.getItem("adminToken");
 
   const fetchUsers = async () => {
     try {

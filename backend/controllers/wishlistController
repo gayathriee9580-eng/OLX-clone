@@ -37,8 +37,6 @@ exports.removeFromWishlist = async (req, res) => {
 };
 
 
-
-
 exports.getWishlist = async (req, res) => {
   try {
     if (!req.user || !req.user.id) {

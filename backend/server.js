@@ -15,7 +15,6 @@ app.use(cors());
 app.use(express.json());
 
 connectDB();
-console.log(process.env.MONGO_URI);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);

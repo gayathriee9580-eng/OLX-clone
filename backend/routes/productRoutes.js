@@ -4,7 +4,6 @@ const authMiddleware = require("../middleware/authMiddleware");
 const upload = require("../middleware/uploadMiddleware");
 
 const router = express.Router();
-
 router.post( "/", authMiddleware,upload.single("image"),createProduct);
 router.get("/", getProducts);
 router.get("/my-products", authMiddleware, getMyProducts);

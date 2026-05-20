@@ -14,8 +14,6 @@ const [timer, setTimer] = useState(0);
 
   const verifyOtp = async (e) => {
     e.preventDefault();
-    
-
     try {
       const res = await axios.post("https://olx-clone-vgy9.onrender.com/api/auth/verify-otp", {
         email,

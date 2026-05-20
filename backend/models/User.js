@@ -24,10 +24,10 @@ const userSchema = new mongoose.Schema(
       default: "buyer",
     },
       phone: {
-      type: String,
-      required: true,
-    },
-
+        type: String,
+        required: true,
+        unique: true,
+      },
     isBlocked: {
       type: Boolean,
       default: false,

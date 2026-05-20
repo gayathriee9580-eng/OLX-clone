@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [users, setUsers] = useState([]);
   const [activeTab, setActiveTab] = useState("products"); // 'products' അല്ലെങ്കിൽ 'users'
 
-  const adminToken = localStorage.getItem("adminToken") || localStorage.getItem("token");
+const adminToken = localStorage.getItem("adminToken");
 
   const getImageUrl = (image) => {
     if (!image) return "https://via.placeholder.com/300x200?text=No+Image";
@@ -99,6 +100,22 @@ const deleteProduct = async (id) => {
   return (
     <div className="admin-container" style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto", color: "white" }}>
       <h1 style={{ textAlign: "center", marginBottom: "20px", color: "#6366f1" }}>Admin Dashboard</h1>
+
+      <Link to="/admin/add-product">
+      <button
+        style={{
+          padding: "10px 20px",
+          background: "#10b981",
+          color: "white",
+          border: "none",
+          borderRadius: "8px",
+          marginBottom: "20px",
+          cursor: "pointer",
+        }}
+      >
+        + Add Product
+      </button>
+    </Link>
       
       {/* 📑 Tabs Navigation */}
       <div style={{ display: "flex", justifyContent: "center", gap: "15px", marginBottom: "30px" }}>
@@ -161,7 +178,7 @@ const deleteProduct = async (id) => {
                   <td style={{ padding: "12px" }}>{user.name}</td>
                   <td style={{ padding: "12px" }}>{user.email}</td>
                   <td style={{ padding: "12px" }}>
-                    <span style={{ padding: "4px 8px", borderRadius: "4px", fontSize: "0.8rem", fontWeight: "bold", background: user.role === "admin" ? "#pffce00" : user.role === "seller" ? "#059669" : "#4b5563", color: "white" }}>
+                    <span style={{ padding: "4px 8px", borderRadius: "4px", fontSize: "0.8rem", fontWeight: "bold", background: user.role === "admin" ? "#ffce00" : user.role === "seller" ? "#059669" : "#4b5563", color: "white" }}>
                       {user.role.toUpperCase()}
                     </span>
                   </td>

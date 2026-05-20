@@ -17,11 +17,9 @@ function AdminEditProduct() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const adminToken = localStorage.getItem("adminToken");
   
-
-  const adminToken =
-    localStorage.getItem("adminToken") || localStorage.getItem("token");
-
   const fetchProduct = async () => {
     try {
       const res = await axios.get(`https://olx-clone-vgy9.onrender.com/api/products/${id}`);

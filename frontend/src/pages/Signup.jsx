@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Signup() {
   const navigate = useNavigate();
@@ -19,28 +20,54 @@ function Signup() {
     });
   };
 
-  const signupUser = async (e) => {
-    e.preventDefault();
+ const signupUser = async (e) => {
+  e.preventDefault();
 
-    try {
-      const res = await axios.post(
-        "https://olx-clone-vgy9.onrender.com/api/auth/signup",
-        form
-      );
+  if (
+    !form.name.trim() ||
+    !form.email.trim() ||
+    !form.password.trim() ||
+    !form.phone.trim()
+  ) {
+    return alert("Fields cannot be empty");
+  }
 
-        alert(res.data.message);
+  try {
+    const res = await axios.post(
+      "https://olx-clone-vgy9.onrender.com/api/auth/signup",
+      form
+    );
 
-        navigate("/verify-otp", {
+    Swal.fire({
+      icon: "success",
+      title: "Signup Successful",
+      text: res.data.message,
+      background: "#1e293b",
+      color: "#fff",
+      confirmButtonColor: "#2563eb",
+    });
+
+    setTimeout(() => {
+      navigate("/verify-otp", {
         state: {
-            email: res.data.email,
+          email: res.data.email,
         },
-        });
+      });
+    }, 1500);
 
-    } catch (error) {
-      console.log(error);
-      alert("Signup failed");
-    }
-  };
+  } catch (error) {
+    console.log(error);
+
+    Swal.fire({
+      icon: "error",
+      title: "Signup Failed",
+      text: error.response?.data?.message || "Something went wrong",
+      background: "#1e293b",
+      color: "#fff",
+      confirmButtonColor: "#dc2626",
+    });
+  }
+};
 
   return (
     <div className="app">
@@ -71,13 +98,14 @@ function Signup() {
             required
             />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange}
-          required
-        />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
+            minLength="6"
+            required
+          />
 
         <select name="role" onChange={handleChange}>
           <option value="buyer">Buyer</option>

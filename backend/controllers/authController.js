@@ -3,61 +3,109 @@ const User = require("../models/User");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 
-// Signup user
 const signup = async (req, res) => {
   try {
-    const { name, email, password, role, phone } = req.body;
+    let { name, email, password, role, phone } = req.body;
+
+    name = name?.trim();
+    email = email?.trim().toLowerCase();
+    phone = phone?.trim();
+
+    if (!name || !email || !password || !phone) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
+    }
+
+    if (name.length < 3) {
+      return res.status(400).json({
+        message: "Name must be at least 3 characters",
+      });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        message: "Invalid email format",
+      });
+    }
+
+    const passwordRegex = /^(?=.*\d).{6,}$/;
+
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        message:
+          "Password must be at least 6 characters and contain a number",
+      });
+    }
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+      return res.status(400).json({
+        message: "Enter valid 10 digit phone number",
+      });
+    }
+
+    const allowedRoles = ["buyer", "seller"];
+
+    if (!allowedRoles.includes(role)) {
+      role = "buyer";
+    }
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({
+        message: "Email already registered",
+      });
     }
 
-const hashedPassword = await bcrypt.hash(password, 10);
+    const existingPhone = await User.findOne({ phone });
 
-const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    if (existingPhone) {
+      return res.status(400).json({
+        message: "Phone number already used",
+      });
+    }
 
-if (!/^[0-9]{10}$/.test(phone)) {
-  return res.status(400).json({
-    message: "Enter valid 10 digit phone number",
-  });
-}
-const user = await User.create({
-  name,
-  email,
-  password: hashedPassword,
-  role,
-  phone,
-  isVerified: false,
-  otp,
-  otpExpire: Date.now() + 10 * 60 * 1000,
-});
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role: role === "seller" ? "seller" : "buyer",
+      phone,
+      isVerified: false,
+      otp,
+      otpExpire: Date.now() + 10 * 60 * 1000,
+    });
 
-try {
-  await sendEmail(
-    user.email,
-    "OLX Clone OTP Verification",
-    `Your OTP is ${otp}. It will expire in 10 minutes.`
-  );
-} catch (emailError) {
-  console.log("Email error:", emailError);
+    try {
+      await sendEmail(
+        user.email,
+        "OLX Clone OTP Verification",
+        `Your OTP is ${otp}. It will expire in 10 minutes.`
+      );
+    } catch (emailError) {
+      console.log("Email error:", emailError);
 
-  // ❗ rollback user
-  await User.findByIdAndDelete(user._id);
+      await User.findByIdAndDelete(user._id);
 
-  return res.status(500).json({
-    message: "Failed to send OTP. Please try again.",
-  });
-}
+      return res.status(500).json({
+        message: "Failed to send OTP. Please try again.",
+      });
+    }
 
-res.status(201).json({
-  message: "User registered. OTP sent to your email",
-  email: user.email,
-});
+    res.status(201).json({
+      message: "User registered. OTP sent to your email",
+      email: user.email,
+    });
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
@@ -249,17 +297,16 @@ const resendOtp = async (req, res) => {
   }
 };
 
-// ✅ യൂസറുടെ റോൾ 'buyer'ൽ നിന്നും 'seller'ലേക്ക് അപ്ഡേറ്റ് ചെയ്യാനുള്ള കൺട്രോളർ
 const updateRoleToSeller = async (req, res) => {
   try {
-    // authMiddleware ഉള്ളതുകൊണ്ട് req.user.id-ൽ നിന്ന് ലോഗിൻ ചെയ്ത യൂസറുടെ ID കിട്ടും
+   
     const userId = req.user.id; 
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { role: "seller" },
-      { new: true } // അപ്ഡേറ്റ് ചെയ്ത പുതിയ ഡാറ്റ റെസ്പോൺസിൽ കിട്ടാൻ
-    ).select("-password"); // പാസ്‌വേഡ് ഫീൽഡ് ഒഴിവാക്കി ബാക്കി ഡാറ്റ എടുക്കുന്നു
+      { new: true } 
+    ).select("-password"); 
 
     if (!updatedUser) {
       return res.status(404).json({ success: false, message: "User not found" });

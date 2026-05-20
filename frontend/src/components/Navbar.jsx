@@ -107,18 +107,30 @@ const handleBecomeSeller = async () => {
 
         {isLoggedIn && (
           <>
-            {user?.role === "admin" && (
-              <Link to="/admin/products" style={{ color: "#ffce00", fontWeight: "bold" }}>
-                Dashboard
-              </Link>
-            )}
+{user?.role === "admin" && (
+  <>
+    <Link
+      to="/admin/products"
+      style={{ color: "#ffce00", fontWeight: "bold" }}
+    >
+      Dashboard
+    </Link>
 
-            {user?.role === "seller" && (
-              <>
-                <Link to="/add-product">Sell</Link>
-                <Link to="/my-products">My Ads</Link>
-              </>
-            )}
+    <Link
+      to="/admin/add-product"
+      style={{ color: "#ffce00", fontWeight: "bold" }}
+    >
+      Add Product
+    </Link>
+
+    <Link
+      to="/admin/users"
+      style={{ color: "#ffce00", fontWeight: "bold" }}
+    >
+      Users
+    </Link>
+  </>
+)}
 
             {user?.role === "buyer" && (
               <button 
