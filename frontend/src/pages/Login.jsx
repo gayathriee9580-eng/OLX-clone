@@ -71,7 +71,6 @@ setTimeout(() => {
     } catch (error) {
       console.log(error);
       
-      // ❌ ലോഗിൻ ഫെയിൽ ആയാൽ കാണിക്കേണ്ട എറർ പോപ്പ്-അപ്പ്
       if (typeof Swal !== "undefined" && Swal.fire) {
         Swal.fire({
           icon: "error",
