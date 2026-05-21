@@ -118,13 +118,6 @@ const handleBecomeSeller = async () => {
         </Link>
 
         <Link
-          to="/admin/add-product"
-          style={{ color: "#ffce00", fontWeight: "bold" }}
-        >
-          Add Product
-        </Link>
-
-        <Link
           to="/admin/users"
           style={{ color: "#ffce00", fontWeight: "bold" }}
         >
