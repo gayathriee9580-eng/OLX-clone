@@ -98,7 +98,8 @@ const deleteProduct = async (id) => {
   }, []);
 
   return (
-    <div className="admin-container" style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto", color: "white" }}>
+    <div className="admin-container">
+
       <h1 style={{ textAlign: "center", marginBottom: "20px", color: "#6366f1" }}>Admin Dashboard</h1>
 
       <Link to="/admin/add-product">
@@ -135,7 +136,16 @@ const deleteProduct = async (id) => {
 
       {/* 🛍️ Products Management */}
       {activeTab === "products" && (
-        <div className="products-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "20px" }}>
+
+<div
+  className="products-grid"
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+    gap: "20px",
+    width: "100%",
+  }}
+>          
           {products.map((product) => (
             <div className="product-card" key={product._id} style={{ background: "#1e293b", borderRadius: "12px", overflow: "hidden", boxShadow: "0 4px 6px rgba(0,0,0,0.1)", display: "flex", flexDirection: "column" }}>
               <img src={getImageUrl(product.image)} alt={product.title} style={{ width: "100%", height: "200px", objectFit: "cover" }} />

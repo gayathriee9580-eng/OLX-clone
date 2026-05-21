@@ -52,10 +52,19 @@ h1 {
   cursor: pointer;
 }
 
+.admin-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+  padding: 20px;
+  color: white;
+}
+
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  width: 100%;
 }
 
 .product-card {
