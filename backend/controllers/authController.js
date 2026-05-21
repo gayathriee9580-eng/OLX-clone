@@ -5,11 +5,12 @@ const sendEmail = require("../utils/sendEmail");
 
 const signup = async (req, res) => {
   try {
-    let { name, email, password, role, phone } = req.body;
+let { name, email, password, role, phone } = req.body;
 
-    name = name?.trim();
-    email = email?.trim().toLowerCase();
-    phone = phone?.trim();
+name = name?.trim();
+email = email?.trim().toLowerCase();
+phone = phone?.trim();
+password = password?.trim();
 
     if (!name || !email || !password || !phone) {
       return res.status(400).json({
@@ -52,13 +53,38 @@ const signup = async (req, res) => {
       role = "buyer";
     }
 
-    const existingUser = await User.findOne({ email });
+const existingUser = await User.findOne({ email });
 
-    if (existingUser) {
-      return res.status(400).json({
-        message: "Email already registered",
-      });
-    }
+if (existingUser) {
+
+  // already verified user
+  if (existingUser.isVerified) {
+    return res.status(400).json({
+      message: "Email already registered",
+    });
+  }
+
+  // user exists but not verified → resend OTP
+  const newOtp = Math.floor(
+    100000 + Math.random() * 900000
+  ).toString();
+
+  existingUser.otp = newOtp;
+  existingUser.otpExpire = Date.now() + 10 * 60 * 1000;
+
+  await existingUser.save();
+
+  await sendEmail(
+    existingUser.email,
+    "OLX Clone OTP Verification",
+    `Your OTP is ${newOtp}. It will expire in 10 minutes.`
+  );
+
+  return res.status(200).json({
+    message: "OTP resent to your email",
+    email: existingUser.email,
+  });
+}
 
     const existingPhone = await User.findOne({ phone });
 
