@@ -38,6 +38,8 @@ function Signup() {
       form
     );
 
+     console.log(res.data);
+
     Swal.fire({
       icon: "success",
       title: "Signup Successful",

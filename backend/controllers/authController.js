@@ -94,39 +94,30 @@ if (existingUser) {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      role: role === "seller" ? "seller" : "buyer",
-      phone,
-      isVerified: false,
-      otp,
-      otpExpire: Date.now() + 10 * 60 * 1000,
-    });
+const hashedPassword = await bcrypt.hash(password, 10);
 
-    try {
-      await sendEmail(
-        user.email,
-        "OLX Clone OTP Verification",
-        `Your OTP is ${otp}. It will expire in 10 minutes.`
-      );
-    } catch (emailError) {
-      console.log("Email error:", emailError);
+const otp = Math.floor(
+  100000 + Math.random() * 900000
+).toString();
 
-      await User.findByIdAndDelete(user._id);
+const user = await User.create({
+  name,
+  email,
+  password: hashedPassword,
+  role: role === "seller" ? "seller" : "buyer",
+  phone,
+  isVerified: false,
+  otp,
+  otpExpire: Date.now() + 10 * 60 * 1000,
+});
 
-      return res.status(500).json({
-        message: "Failed to send OTP. Please try again.",
-      });
-    }
+// TEMPORARY TESTING
+// email sending skip cheyyunnu
 
-    res.status(201).json({
-      message: "User registered. OTP sent to your email",
-      email: user.email,
-    });
+res.status(201).json({
+  message: "User registered successfully",
+  email: user.email,
+});
 
   } catch (error) {
     res.status(500).json({
