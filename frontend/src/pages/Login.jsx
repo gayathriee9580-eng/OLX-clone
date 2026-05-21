@@ -59,12 +59,9 @@ setTimeout(() => {
 
   if (res.data.user.role === "admin") {
     navigate("/admin/products");
-  }
-  else {
+  } else {
     navigate("/");
   }
-
-  window.location.reload();
 
 }, 2000);
 
