@@ -10,6 +10,19 @@ function Home({ search }) {
   const [sort, setSort] = useState("latest");
 
 
+    const getImageUrl = (image) => {
+    if (!image) {
+      return "https://via.placeholder.com/300x200?text=No+Image";
+    }
+
+    if (image.startsWith("http")) {
+      return image;
+    }
+
+    return `https://olx-clone-vgy9.onrender.com/uploads/${image}`;
+  };
+
+
 const filteredProducts = products
   .filter((product) => {
     const matchesSearch = product.title
@@ -129,10 +142,11 @@ const addToWishlist = async (e, productId) => {
             className="product-card"
             style={{ position: "relative" }}
             >                
-              <img
-                src={`https://olx-clone-vgy9.onrender.com/uploads/${product.image}`}
-                alt=""
-              />
+                <img
+                  src={getImageUrl(product.image)}
+                  alt={product.title}
+                />
+                
                 <button
                 onClick={(e) => addToWishlist(e, product._id)}
                 style={{
