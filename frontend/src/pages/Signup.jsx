@@ -101,13 +101,13 @@ function Signup() {
           onChange={handleChange}
           required
         />
-        
+
         <input
           type="text"
           name="phone"
           placeholder="Phone Number"
           onChange={handleChange}
-          pattern="[6-9][0-9]{10}"
+          pattern="[6-9][0-9]{9}"
           title="Enter a valid 10-digit phone number starting with 6, 7, 8, or 9"
           required
         />
