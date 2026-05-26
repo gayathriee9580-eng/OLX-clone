@@ -56,13 +56,11 @@ function Login() {
       }
 
 setTimeout(() => {
-
   if (res.data.user.role === "admin") {
-    navigate("/admin/products");
+    window.location.href = "/admin/products"; 
   } else {
-    navigate("/");
+    window.location.href = "/"; 
   }
-
 }, 2000);
 
     } catch (error) {
