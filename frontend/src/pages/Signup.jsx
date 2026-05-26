@@ -23,6 +23,18 @@ function Signup() {
  const signupUser = async (e) => {
   e.preventDefault();
 
+
+  if (form.email.includes(" ")) {
+      return Swal.fire({
+        icon: "error",
+        title: "Validation Error",
+        text: "Email cannot contain spaces!",
+        background: "#1e293b",
+        color: "#fff",
+        confirmButtonColor: "#dc2626",
+      });
+    }
+
   if (
     !form.name.trim() ||
     !form.email.trim() ||

@@ -24,11 +24,12 @@ password = password?.trim();
       });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailRegex.test(email)) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailRegex.test(email) || email.includes(" ")) {
       return res.status(400).json({
-        message: "Invalid email format",
+        message: "Invalid email format. Spaces are not allowed.",
       });
     }
 
