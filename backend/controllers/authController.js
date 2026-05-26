@@ -42,11 +42,13 @@ password = password?.trim();
       });
     }
 
-    if (!/^[0-9]{10}$/.test(phone)) {
-      return res.status(400).json({
-        message: "Enter valid 10 digit phone number",
-      });
-    }
+
+    const phoneRegex = /^[6-9]\d{9}$/;
+        if (!phoneRegex.test(phone)) {
+          return res.status(400).json({
+            message: "Enter a valid 10-digit Indian phone number",
+          });
+        }
 
     const allowedRoles = ["buyer", "seller"];
 
