@@ -71,11 +71,16 @@ function AdminAddProduct() {
 
         <textarea
           name="description"
-          placeholder="Product description"
+          placeholder="Enter detailed product description..."
           value={product.description}
           onChange={handleChange}
+          rows="5"
+          maxLength="1000"
           required
         />
+        <p className="char-count">
+          {product.description.length}/1000 characters
+        </p>
 
         <input
           type="number"

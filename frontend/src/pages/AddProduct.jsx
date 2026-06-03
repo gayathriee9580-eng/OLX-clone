@@ -59,12 +59,18 @@ function AddProduct() {
           onChange={handleChange}
         />
 
-        <input
-          type="text"
+        <textarea
           name="description"
-          placeholder="Description"
+          placeholder="Enter detailed product description..."
+          value={form.description}
           onChange={handleChange}
+          rows="5"
+          maxLength="1000"
+          required
         />
+        <p className="char-count">
+        {form.description.length}/1000 characters
+      </p>
 
         <input
           type="number"

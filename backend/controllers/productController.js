@@ -6,6 +6,13 @@ const createProduct = async (req, res) => {
     console.log("FILE:", req.file);
 
     const { title, description, price, category, location } = req.body;
+
+    if (description.length > 1000) {
+  return res.status(400).json({
+    message: "Description cannot exceed 1000 characters",
+  });
+}
+
     const product = await Product.create({
       title,
       description,
@@ -69,6 +76,15 @@ const updateProduct = async (req, res) => {
     if (product.seller.toString() !== req.user.id) {
       return res.status(403).json({
         message: "Not authorized",
+      });
+    }
+
+    if (
+      req.body.description &&
+      req.body.description.length > 1000
+    ) {
+      return res.status(400).json({
+        message: "Description cannot exceed 1000 characters",
       });
     }
 
